@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #eaecee;
+  height: 100dvh;
+}
+
+@layer components {
+  .label-text {
+    @apply font-medium;
+  }
+  .btn-icon {
+    @apply hover:bg-accent p-1 rounded-md hover:text-white
+  }
+}
