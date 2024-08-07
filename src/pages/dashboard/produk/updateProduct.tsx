@@ -13,36 +13,33 @@ type updateProductSchemaType = z.infer<typeof updateProductSchema>;
 const updateProductSchemaNoImg = updateProductSchema.omit({
   image: true,
 });
+
 export default function UpdateProduct() {
-  const [schema, setSchema] = useState(updateProductSchemaNoImg);
+  const [schema, setSchema] = useState<
+    typeof updateProductSchema | typeof updateProductSchemaNoImg
+  >(updateProductSchema);
   const { productId } = useParams();
   const [mutateUpdate] = productServices.useUpdateProductMutation();
+
   const { data: productQuery, isSuccess } =
     productServices.useGetProductByIdQuery(String(productId));
+
   const formProps = useForm<updateProductSchemaType>({
     resolver: zodResolver(schema),
     defaultValues: productQuery?.data,
   });
+  useSchemaSelectByImageVal(setSchema, [formProps.watch("image")]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => formProps.reset(productQuery?.data), [isSuccess]);
-  const imgFormVal = formProps.watch("image");
-  useEffect(() => {
-    if (typeof imgFormVal === "string") {
-      setSchema(updateProductSchema);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imgFormVal]);
 
   const submitHandler = (
     datas: Partial<updateProductSchemaType> & { [key: string]: unknown }
   ) => {
-    console.log({ datas });
     const formdata = new FormData();
     for (const [key, val] of Object.entries(datas)) {
       if (val != productQuery?.data[key]) {
         formdata.set(key, val as string);
-        alert(key);
       }
     }
     mutateUpdate({
@@ -51,11 +48,6 @@ export default function UpdateProduct() {
     });
   };
 
-  console.log({
-    err: formProps.formState.errors,
-    wat: formProps.watch("image") == productQuery?.data.image,
-    schena: schema,
-  });
   return (
     <>
       <Breadcrumbs
@@ -71,3 +63,19 @@ export default function UpdateProduct() {
     </>
   );
 }
+
+const useSchemaSelectByImageVal = (
+  onSelect: (
+    schema: typeof updateProductSchema | typeof updateProductSchemaNoImg
+  ) => void,
+  [imgVal]: [imgVal: string | File]
+) => {
+  useEffect(() => {
+    if (typeof imgVal == "string") {
+      onSelect(updateProductSchemaNoImg);
+    } else {
+      onSelect(updateProductSchema);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imgVal]);
+};

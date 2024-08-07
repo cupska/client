@@ -18,12 +18,12 @@ const links: { icon: ReactNode; label: string; path: string }[] = [
   {
     icon: <RiLogoutBoxFill className=" text-2xl" />,
     label: "Logout",
-    path: "#logout",
+    path: "/logout",
   },
 ];
 
 export default function SideNavbar() {
-  const location = useLocation(); 
+  const location = useLocation();
   return (
     <nav className="">
       <ul className=" [&>li]:min-w-[1px] *:text-gray-500">

@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import SideNavbar from "../ui/sideNavbar";
 
 export default function MainLayout({ children }: { children: ReactNode }) {
+  
   return (
     <div className=" flex m-auto ">
       <div className=" px-4 lg:px-10 py-10">

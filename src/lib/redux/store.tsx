@@ -6,12 +6,14 @@ import { productServices } from "../../services/product.services";
 import { categoryServices } from "../../services/category.services";
 import { pagingSlice } from "../../features/pagination";
 import { toastSlice } from "../../features/toastSlice";
+import { authSlice } from "../../features/authSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterSlice,
     toast: toastSlice.reducer,
     pagination: pagingSlice.reducer,
+    session: authSlice.reducer,
     [userServices.reducerPath]: userServices.reducer,
     [authSevices.reducerPath]: authSevices.reducer,
     [productServices.reducerPath]: productServices.reducer,

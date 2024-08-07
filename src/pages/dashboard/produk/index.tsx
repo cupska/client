@@ -9,6 +9,7 @@ import { useState } from "react";
 import { productSchema } from "../../../lib/zod-validation/product.validation";
 import { z } from "zod";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { currencyFormater } from "../../../utils/currencyFormater";
 // import { useDispatch } from "react-redux";
 // import { setPopTime, toastSlice } from "../../../features/toastSlice";
 
@@ -107,6 +108,10 @@ export default function Produk() {
   );
 }
 
+// function ExportCSVProducts() {
+
+// }
+
 function TableProduct({
   datas,
   paging,
@@ -116,8 +121,6 @@ function TableProduct({
   paging: { page: number; limit: number; totalRow: number };
   onRefetch: () => void;
 }) {
-  // const toastDispatch = useDispatch();
-
   const [mutateDelProduct] = productServices.useDeleteProductMutation();
 
   const mutateDelProductHandler = (id: number) => {
@@ -133,8 +136,8 @@ function TableProduct({
             <td>Gambar</td>
             <td>Nama Produk</td>
             <td>Kategori</td>
-            <td>Harga Beli (Rp)</td>
-            <td>Harga Jual (Rp)</td>
+            <td>Harga Beli</td>
+            <td>Harga Jual</td>
             <td>Stok Barang</td>
             <th></th>
           </tr>
@@ -151,8 +154,8 @@ function TableProduct({
               </td>
               <td>{row.name}</td>
               <td>{row.category_name}</td>
-              <td>{row.buy_price}</td>
-              <td>{row.sell_price}</td>
+              <td>{currencyFormater(row.buy_price)}</td>
+              <td>{currencyFormater(row.sell_price)}</td>
               <td>{row.amount}</td>
               <td>
                 <div className=" flex gap-x-2">
@@ -161,15 +164,6 @@ function TableProduct({
                     title="ubah"
                     type="button"
                     className=" btn-icon text-lg"
-                    onClick={() => {
-                      // toastDispatch(
-                      //   toastSlice.actions.addToast({
-                      //     elm: "<div>test</div>",
-                      //     status: "success",
-                      //   })
-                      // );
-                      // toastDispatch(setPopTime());
-                    }}
                   >
                     <FaEdit />
                   </NavLink>

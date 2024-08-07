@@ -15,10 +15,30 @@ export const authSevices = createApi({
   }),
   endpoints: (builder) => ({
     registration: builder.mutation<unknown, z.infer<typeof registerSchema>>({
-      query: (body) => ({ url: "/registration", method: "POST", body }),
+      query: (body) => ({
+        url: "/registration",
+        method: "POST",
+        body,
+      }),
     }),
-    login: builder.mutation<unknown, z.infer<typeof loginSchema>>({
-      query: (body) => ({ url: "/login", method: "POST", body }),
+    login: builder.mutation<
+      { data: { user: { fullname: string; id: string; role: string } } },
+      z.infer<typeof loginSchema>
+    >({
+      query: (body) => ({
+        url: "/login",
+        method: "POST",
+        body,
+        credentials: "include",
+      }),
+    }),
+    logout: builder.mutation({
+      query: () => ({
+        url: "/logout",
+        method: "post",
+        credentials: "include",
+        responseHandler: (res) => res.text(),
+      }),
     }),
   }),
 });

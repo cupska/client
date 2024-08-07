@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registerSchema } from "../../lib/zod-validation/user.validation";
@@ -9,6 +9,10 @@ import { ErrorInputValidation } from "../../components/form/ErrorInputValidation
 import { userServices } from "../../services/user.services";
 import { authSevices } from "../../services/auth";
 import { useEffect } from "react";
+import Button from "../../components/ui/Button";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addToast } from "../../features/toastSlice";
 
 type registerSchemaType = z.infer<typeof registerSchema>;
 const defaultValues: registerSchemaType = import.meta.env.DEV
@@ -26,6 +30,8 @@ const defaultValues: registerSchemaType = import.meta.env.DEV
     };
 
 export default function Registration() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     formState: { errors },
     register,
@@ -36,22 +42,40 @@ export default function Registration() {
     resolver: zodResolver(registerSchema),
     defaultValues: defaultValues,
     criteriaMode: "all",
+    mode: "onChange",
   });
 
   const [usernameCheckerMutate, usernameCheckerState] =
     userServices.useCheckUsernameCheckerMutation();
-  const [regisMutate, { isLoading }] = authSevices.useRegistrationMutation();
+  const [regisMutate, { isLoading, isSuccess, isError }] =
+    authSevices.useRegistrationMutation();
 
   useEffect(() => {
     const usernameVal = getValues("username");
     usernameVal.length >= 6 && usernameCheckerMutate(usernameVal);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("username")]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(addToast({ elm: "Berhasil mendaftar", status: "success" }));
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 2000);
+    }
+    if (isError)
+      dispatch(addToast({ elm: "Gagal mendaftar", status: "error" }));
+  }, [isSuccess, isError]);
+
+  const submitHandler = (data: registerSchemaType) => {
+    regisMutate(data);
+  };
+  console.log({ errors, isSuccess });
   return (
     <>
       <form
         className="mt-8 grid grid-cols-6 gap-6"
-        onSubmit={handleSubmit(regisMutate)}
+        onSubmit={handleSubmit(submitHandler)}
       >
         <div className=" grid col-span-6 grid-cols-subgrid">
           <div className=" col-span-3">
@@ -78,19 +102,31 @@ export default function Registration() {
             />
           </div>
           <div className=" col-span-6">
-            <ErrorInputValidation>
-              {errors?.username?.message}
-            </ErrorInputValidation>
-            {watch("username").length >= 6 ? (
+            {!errors?.username ? (
               <>
-                {usernameCheckerState?.data?.data?.username?.isExist ? (
-                  "username sudah digunakan"
+                {watch("username").length >= 6 ? (
+                  <>
+                    {usernameCheckerState?.data?.data?.username?.isExist ? (
+                      <ErrorInputValidation>
+                        Username sudah digunakan
+                      </ErrorInputValidation>
+                    ) : (
+                      <ErrorInputValidation>
+                        <span className=" text-success">
+                          <FaRegCheckCircle className=" inline-block mr-2" />
+                          username tersedia
+                        </span>
+                      </ErrorInputValidation>
+                    )}
+                  </>
                 ) : (
-                  <ErrorInputValidation>username tersedia</ErrorInputValidation>
+                  <></>
                 )}
               </>
             ) : (
-              <></>
+              <ErrorInputValidation>
+                {errors?.username?.message}
+              </ErrorInputValidation>
             )}
           </div>
         </div>
@@ -149,25 +185,9 @@ export default function Registration() {
           </p>
         </div>
         <div className="col-span-6 m-auto sm:flex sm:items-center sm:gap-4">
-          <button
-            type="submit"
-            className={
-              isLoading
-                ? "btn-disabled "
-                : "btn-active" + " btn btn-md btn-primary"
-            }
-          >
-            {isLoading ? (
-              <>
-                <span
-                  className={(isLoading && "loading ") + " loading-spinner"}
-                ></span>
-                Tunggu
-              </>
-            ) : (
-              "Buat akun"
-            )}
-          </button>
+          <Button type="submit" isLoading={isLoading}>
+            Daftar
+          </Button>
 
           <p className="mt-4 text-sm text-gray-500 sm:mt-0 dark:text-gray-400">
             Already have an account?

@@ -5,6 +5,7 @@ import {
   productSchema,
   updateProductSchema,
 } from "../lib/zod-validation/product.validation";
+import { addToast } from "../features/toastSlice";
 
 // Define a service using a base URL and expected endpoints
 export const productServices = createApi({
@@ -12,6 +13,7 @@ export const productServices = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL + "/products",
   }),
+  tagTypes: ["products"],
   endpoints: (builder) => ({
     addProducts: builder.mutation<unknown, z.infer<typeof addProductSchema>>({
       query: (body) => ({
@@ -19,6 +21,17 @@ export const productServices = createApi({
         method: "post",
         body,
       }),
+      invalidatesTags: ["products"],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(
+            addToast({ elm: "Berhasil tambah produk", status: "success" })
+          );
+        } catch (error) {
+          dispatch(addToast({ elm: "Gagal tambah produk", status: "error" }));
+        }
+      },
     }),
     updateProduct: builder.mutation<
       undefined,
@@ -31,6 +44,17 @@ export const productServices = createApi({
         method: "put",
         body: payload,
       }),
+      invalidatesTags: ["products"],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(
+            addToast({ elm: "Berhasil update produk", status: "success" })
+          );
+        } catch (error) {
+          dispatch(addToast({ elm: "Gagal update produk", status: "error" }));
+        }
+      },
     }),
     getProducts: builder.query<
       {
@@ -46,7 +70,13 @@ export const productServices = createApi({
         };
       }
     >({
-      query: (arg) => ({ url: "/", method: "GET", params: arg.paging }),
+      query: (arg) => ({
+        url: "/",
+        method: "GET",
+        params: arg.paging,
+        credentials: "include",
+      }),
+      providesTags: ["products"],
     }),
     getProductById: builder.query<
       { data: z.infer<typeof productSchema> & { [key: string]: unknown } },
@@ -55,9 +85,20 @@ export const productServices = createApi({
       query: (id) => ({
         url: "/" + id,
       }),
+      providesTags: ["products"],
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({ url: "/" + id, method: "delete" }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(
+            addToast({ elm: "Berhasil hapus produk", status: "success" })
+          );
+        } catch (error) {
+          dispatch(addToast({ elm: "Gagal hapus produk", status: "error" }));
+        }
+      },
     }),
   }),
 });

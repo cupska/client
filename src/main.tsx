@@ -14,6 +14,8 @@ import Profile from "./pages/dashboard/profile.tsx";
 import AddProduct from "./pages/dashboard/produk/addProduct.tsx";
 import MainToast from "./components/ui/Toast.tsx";
 import UpdateProduct from "./pages/dashboard/produk/updateProduct.tsx";
+import RequireAuth from "./pages/auth/requireAuth.tsx";
+import Logout from "./pages/auth/logout.tsx";
 
 const rootRouter = createBrowserRouter([
   {
@@ -35,11 +37,17 @@ const rootRouter = createBrowserRouter([
     ],
   },
   {
-    path: "dashboard",
+    path: "logout",
+    element: <Logout />,
+  },
+  {
+    path: "dashboard", //Protected Route
     element: (
-      <MainLayout>
-        <Outlet />
-      </MainLayout>
+      <RequireAuth>
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
+      </RequireAuth>
     ),
     children: [
       {

@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReactNode } from "react";
-import { AppDispatch, RootState } from "../lib/redux/store";
 
 type payload = { elm: ReactNode; status: "error" | "success" };
 const initialState: {
@@ -20,12 +19,4 @@ export const toastSlice = createSlice({
   },
 });
 
-export const setPopTime = createAsyncThunk<
-  void,
-  void,
-  { state: RootState; dispatch: AppDispatch }
->("toast/setPoptime", async (_, { dispatch }) => {
-  setTimeout(() => {
-    dispatch(toastSlice.actions.popToast());
-  }, 9000);
-});
+export const { addToast, popToast } = toastSlice.actions;

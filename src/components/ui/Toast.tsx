@@ -1,10 +1,13 @@
 import { ReactNode } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../lib/redux/store";
+import { popToast } from "../../features/toastSlice";
 
 type GeneralType = { children: ReactNode };
 function ToastWrapper({ children }: GeneralType) {
-  return <div className="toast toast-top toast-end *:text-sm">{children}</div>;
+  return (
+    <div className="toast z-10 toast-top toast-end *:text-sm">{children}</div>
+  );
 }
 
 function Success({ children }: GeneralType) {
@@ -23,20 +26,21 @@ function Error({ children }: GeneralType) {
 }
 export default function MainToast() {
   const { contents } = useSelector((state: RootState) => state.toast);
+  const dispatch = useDispatch();
   return (
     <>
       <ToastWrapper>
-        {contents.map((val, i) => (
-          <li key={i} className=" list-none">
-            {val.status === "error" && <Error>{val.elm}</Error>}
-            {val.status === "success" && (
-              <Success>
-                {val.elm}
-                {i}
-              </Success>
-            )}
-          </li>
-        ))}
+        {contents.map((val, i) => {
+          setTimeout(() => {
+            dispatch(popToast());
+          }, 6800);
+          return (
+            <li key={i} className=" list-none z-auto">
+              {val.status === "error" && <Error>{val.elm}</Error>}
+              {val.status === "success" && <Success>{val.elm}</Success>}
+            </li>
+          );
+        })}
       </ToastWrapper>
     </>
   );

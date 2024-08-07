@@ -27,9 +27,9 @@ export default function AddProduct() {
       formdata.set(key, val as string);
     }
     console.log({ data, formdata });
-    // mutateProduct(formdata as unknown as addProductsSchemaType).then(() =>
-    //   navigate("/dashboard/produk")
-    // );
+    mutateProduct(formdata as unknown as addProductsSchemaType).then(() =>
+      navigate("/dashboard/produk")
+    );
   };
 
   return (

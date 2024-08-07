@@ -8,9 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorInputValidation } from "../../components/form/ErrorInputValidation";
 import { authSevices } from "../../services/auth";
 import * as Toast from "../../components/ui/Toast";
+import { useDispatch } from "react-redux";
+import { setSession } from "../../features/authSlice";
+import { useEffect } from "react";
 
 type loginSchemaType = z.infer<typeof loginSchema>;
 export default function Login() {
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors },
@@ -19,14 +23,15 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  const [loginMutate, { isSuccess, isError, data }] =
+  const [loginMutate, { isSuccess, isError, data: user }] =
     authSevices.useLoginMutation();
 
-  const setCookie = () => {
-    document.cookie = data.data.token as string;
-    console.log(document.cookie);
-  };
-  isSuccess && setCookie();
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setSession({ user: user.data.user }));
+    }
+  }, [isSuccess]);
+
   const submitHandler = (data: loginSchemaType) => {
     loginMutate(data);
   };
@@ -78,7 +83,7 @@ export default function Login() {
           </div>
         </div>
         <div className=" w-fit m-auto">
-          <Button />
+          <Button type="submit">Masuk</Button>
         </div>
       </form>
       <div>
