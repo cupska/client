@@ -9,7 +9,7 @@ function App() {
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  useEffect(() => navigate("/auth/registration"), []);
+  useEffect(() => navigate("/auth/login"), []);
   return (
     <>
       <div>{count}</div>
