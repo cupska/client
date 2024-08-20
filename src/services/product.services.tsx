@@ -11,13 +11,14 @@ import { addToast } from "../features/toastSlice";
 export const productServices = createApi({
   reducerPath: "productServices",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL + "/products",
+    baseUrl: import.meta.env.VITE_API_URL,
+    credentials: "include",
   }),
   tagTypes: ["products"],
   endpoints: (builder) => ({
     addProducts: builder.mutation<unknown, z.infer<typeof addProductSchema>>({
       query: (body) => ({
-        url: "/",
+        url: "/product",
         method: "post",
         body,
       }),
@@ -40,7 +41,7 @@ export const productServices = createApi({
       }
     >({
       query: ({ productId, payload }) => ({
-        url: "/" + productId,
+        url: "/products/" + productId,
         method: "put",
         body: payload,
       }),
@@ -59,7 +60,7 @@ export const productServices = createApi({
     getProducts: builder.query<
       {
         data: (z.infer<typeof productSchema> & { category_name: string })[];
-        paging: { page: number; limit: number; totalRow: number };
+        pagination: { page: number; limit: number; totalRow: number };
       },
       {
         paging: {
@@ -71,7 +72,7 @@ export const productServices = createApi({
       }
     >({
       query: (arg) => ({
-        url: "/",
+        url: "/products",
         method: "GET",
         params: arg.paging,
         credentials: "include",
@@ -83,12 +84,12 @@ export const productServices = createApi({
       string
     >({
       query: (id) => ({
-        url: "/" + id,
+        url: "/products/" + id,
       }),
       providesTags: ["products"],
     }),
     deleteProduct: builder.mutation({
-      query: (id) => ({ url: "/" + id, method: "delete" }),
+      query: (id) => ({ url: "/products/" + id, method: "delete" }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;

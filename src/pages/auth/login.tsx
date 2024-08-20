@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import TextNumberInput from "../../components/form/TextNumber.input";
 import { useForm } from "react-hook-form";
@@ -6,15 +6,12 @@ import { z } from "zod";
 import { loginSchema } from "../../lib/zod-validation/user.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorInputValidation } from "../../components/form/ErrorInputValidation";
-import { authSevices } from "../../services/auth";
+import { authServices } from "../../services/auth";
 import * as Toast from "../../components/ui/Toast";
-import { useDispatch } from "react-redux";
-import { setSession } from "../../features/authSlice";
 import { useEffect } from "react";
 
 type loginSchemaType = z.infer<typeof loginSchema>;
 export default function Login() {
-  const dispatch = useDispatch();
   const {
     register,
     formState: { errors },
@@ -22,14 +19,13 @@ export default function Login() {
   } = useForm<loginSchemaType>({
     resolver: zodResolver(loginSchema),
   });
+  const navigate = useNavigate();
 
-  const [loginMutate, { isSuccess, isError, data: user }] =
-    authSevices.useLoginMutation();
+  const [loginMutate, { isSuccess, isError }] = authServices.useLoginMutation();
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(setSession({ user: user.data.user }));
-    }
+    navigate("/dashboard/produk");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
   const submitHandler = (data: loginSchemaType) => {

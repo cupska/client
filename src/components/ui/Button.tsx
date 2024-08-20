@@ -5,10 +5,14 @@ export default function Button({
   isLoading = false,
   type,
   title,
+  ...rest
 }: {
   isLoading?: boolean;
   children: ReactNode;
-} & Pick<ButtonHTMLAttributes<HTMLButtonElement>, "type" | "title">) {
+} & Pick<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "type" | "title" | "onClick"
+>) {
   return (
     <button
       className={
@@ -17,6 +21,7 @@ export default function Button({
       }
       type={type}
       title={title}
+      {...rest}
     >
       {isLoading ? (
         <>

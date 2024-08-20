@@ -7,7 +7,7 @@ import TextNumberInput from "../../components/form/TextNumber.input";
 import { ErrorInputValidation } from "../../components/form/ErrorInputValidation";
 
 import { userServices } from "../../services/user.services";
-import { authSevices } from "../../services/auth";
+import { authServices } from "../../services/auth";
 import { useEffect } from "react";
 import Button from "../../components/ui/Button";
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -48,7 +48,7 @@ export default function Registration() {
   const [usernameCheckerMutate, usernameCheckerState] =
     userServices.useCheckUsernameCheckerMutation();
   const [regisMutate, { isLoading, isSuccess, isError }] =
-    authSevices.useRegistrationMutation();
+    authServices.useRegistrationMutation();
 
   useEffect(() => {
     const usernameVal = getValues("username");
@@ -65,6 +65,7 @@ export default function Registration() {
     }
     if (isError)
       dispatch(addToast({ elm: "Gagal mendaftar", status: "error" }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);
 
   const submitHandler = (data: registerSchemaType) => {

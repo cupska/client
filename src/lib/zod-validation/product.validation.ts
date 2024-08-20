@@ -1,11 +1,12 @@
 import { z } from "zod";
 import {
   ERR_REQ_NUMBER,
+  IMAGE_LIMIT,
+  IMAGE_LIMIT_MB,
   IMG_RESTRICTION_TYPE,
   REQUIRED_MSG,
 } from "../../components/constants";
 
-const sizeMax = 3;
 export const productSchema = z.object({
   id: z.number().max(255).optional(),
   name: z.string().min(1, REQUIRED_MSG).max(100),
@@ -14,8 +15,8 @@ export const productSchema = z.object({
     .refine((filelist) => filelist.length == 1, "Harap upload gambar")
     .transform((filelist) => filelist[0])
     .refine(
-      (image) => image.size <= sizeMax * 1024 * 1024,
-      "Ukuran harus kurang dari " + sizeMax + "MB"
+      (image) => image.size <= IMAGE_LIMIT,
+      "Ukuran harus kurang dari " + IMAGE_LIMIT_MB + "MB"
     )
     .refine(
       (image) => IMG_RESTRICTION_TYPE.includes(image.type),

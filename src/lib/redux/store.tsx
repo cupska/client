@@ -1,21 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterSlice from "../../features/counter/counterSlice";
 import { userServices } from "../../services/user.services";
-import { authSevices } from "../../services/auth";
+import { authServices } from "../../services/auth";
 import { productServices } from "../../services/product.services";
 import { categoryServices } from "../../services/category.services";
 import { pagingSlice } from "../../features/pagination";
 import { toastSlice } from "../../features/toastSlice";
-import { authSlice } from "../../features/authSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterSlice,
     toast: toastSlice.reducer,
     pagination: pagingSlice.reducer,
-    session: authSlice.reducer,
     [userServices.reducerPath]: userServices.reducer,
-    [authSevices.reducerPath]: authSevices.reducer,
+    [authServices.reducerPath]: authServices.reducer,
     [productServices.reducerPath]: productServices.reducer,
     [categoryServices.reducerPath]: categoryServices.reducer,
   },
@@ -23,7 +21,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     const customMiddleware = [
       userServices.middleware,
-      authSevices.middleware,
+      authServices.middleware,
       productServices.middleware,
       categoryServices.middleware,
     ];

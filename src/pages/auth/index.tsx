@@ -1,16 +1,6 @@
-import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
-import { RootState } from "../../lib/redux/store";
-import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 export default function Auth() {
-  const session = useSelector((state: RootState) => state.session);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (session.user.id) navigate("/dashboard/produk");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
   return (
     <>
       <div>

@@ -10,6 +10,8 @@ import { productSchema } from "../../../lib/zod-validation/product.validation";
 import { z } from "zod";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { currencyFormater } from "../../../utils/currencyFormater";
+import Button from "../../../components/ui/Button";
+
 // import { useDispatch } from "react-redux";
 // import { setPopTime, toastSlice } from "../../../features/toastSlice";
 
@@ -72,10 +74,34 @@ export default function Produk() {
           </SelectInput>
         </div>
         <div className=" space-x-4">
+          <Button
+            type="button"
+            onClick={async () => {
+              const res = await fetch(
+                import.meta.env.VITE_API_URL + "/export-csv",
+                { credentials: "include" }
+              );
+              const blob = await res.blob();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = "data.csv"; // Nama file yang akan didownload
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              window.URL.revokeObjectURL(url);
+            }}
+          >
+            Export
+          </Button>
           <NavLink to={dataProdukBreadcrums[1].path} className="btn btn-accent">
             Tambah Produk
           </NavLink>
-          <button className="btn btn-primary">Export CSV</button>
+          {/* {productQuery.data?.data && (
+            <CSVLink data={productQuery.data?.data}>
+              <button className="btn btn-primary">Export CSV</button>
+            </CSVLink>
+          )} */}
         </div>
       </div>
       <div className="overflow-x-auto relative mt-10  ">
@@ -87,7 +113,7 @@ export default function Produk() {
             <TableProduct
               onRefetch={productQuery.refetch}
               datas={productQuery.data.data}
-              paging={productQuery.data.paging}
+              paging={productQuery.data.pagination}
             />
           ) : (
             <>
@@ -98,9 +124,9 @@ export default function Produk() {
       <div className="flex justify-center mt-10">
         {productQuery.isSuccess && productQuery.data.data.length > 0 && (
           <Pagination
-            limit={productQuery.data?.paging.limit}
-            maxRow={productQuery?.data?.paging.totalRow}
-            currentPage={productQuery.data.paging.page}
+            limit={productQuery.data?.pagination.limit}
+            maxRow={productQuery?.data?.pagination.totalRow}
+            currentPage={productQuery.data.pagination.page}
           />
         )}
       </div>

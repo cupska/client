@@ -8,11 +8,12 @@ import {
 // import type { Pokemon } from './types'
 
 // Define a service using a base URL and expected endpoints
-export const authSevices = createApi({
+export const authServices = createApi({
   reducerPath: "authServices",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL + "/auth",
   }),
+  tagTypes: ["authorize"],
   endpoints: (builder) => ({
     registration: builder.mutation<unknown, z.infer<typeof registerSchema>>({
       query: (body) => ({
@@ -22,7 +23,7 @@ export const authSevices = createApi({
       }),
     }),
     login: builder.mutation<
-      { data: { user: { fullname: string; id: string; role: string } } },
+      { data: { message: string } },
       z.infer<typeof loginSchema>
     >({
       query: (body) => ({
@@ -39,6 +40,21 @@ export const authSevices = createApi({
         credentials: "include",
         responseHandler: (res) => res.text(),
       }),
+      invalidatesTags: ["authorize"],
+    }),
+    session: builder.query<
+      { isAuthenticated: boolean; id: string; fullname: string },
+      null
+    >({
+      query: () => ({ url: "/session", credentials: "include" }),
+      transformResponse: (response: {
+        data: {
+          isAuthenticated: boolean;
+          id: string;
+          fullname: string;
+        };
+      }) => response.data,
+      providesTags: ["authorize"],
     }),
   }),
 });
