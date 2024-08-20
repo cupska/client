@@ -32,6 +32,10 @@ const rootRouter = createBrowserRouter([
     element: <App />,
   },
   {
+    path: "kurma",
+    element: <div>kimak</div>,
+  },
+  {
     path: "auth",
     element: <Auth />,
     loader: async () => {
