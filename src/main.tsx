@@ -34,17 +34,17 @@ const rootRouter = createBrowserRouter([
   {
     path: "auth",
     element: <Auth />,
-    // loader: async () => {
-    //   await fetch(import.meta.env.VITE_API_URL + "/auth/session", {
-    //     credentials: "include",
-    //   })
-    //     .then((res) => res.json())
-    //     .then((res) => {
-    //       const { data }: SessionType = res;
-    //       if (data?.isAuthenticated) throw redirect("/dashboard/produk");
-    //     });
-    //   return null;
-    // },
+    loader: async () => {
+      await fetch(import.meta.env.VITE_API_URL + "/auth/session", {
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          const { data }: SessionType = res;
+          if (data?.isAuthenticated) throw redirect("/dashboard/produk");
+        });
+      return null;
+    },
     children: [
       {
         path: "registration",
@@ -62,14 +62,14 @@ const rootRouter = createBrowserRouter([
   },
   {
     path: "dashboard", //Protected Route
-    // loader: async () => {
-    //   await fetch(import.meta.env.VITE_API_URL + "/auth/session", {
-    //     credentials: "include",
-    //   }).then((res) => {
-    //     if (!res.ok) throw redirect("/auth/login");
-    //   });
-    //   return null;
-    // },
+    loader: async () => {
+      await fetch(import.meta.env.VITE_API_URL + "/auth/session", {
+        credentials: "include",
+      }).then((res) => {
+        if (!res.ok) throw redirect("/auth/login");
+      });
+      return null;
+    },
     element: (
       <MainLayout>
         <Outlet />
