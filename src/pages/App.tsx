@@ -1,14 +1,12 @@
 import "../style/App.css";
-import { redirect, useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment } from "../features/counter/counterSlice";
 import { RootState } from "../lib/redux/store";
-import { useEffect } from "react";
 
 function App() {
   const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   // useEffect(() => navigate("/auth/login"), []);
   return (
     <>
