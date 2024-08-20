@@ -1,5 +1,5 @@
 import "../style/App.css";
-import { redirect } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment } from "../features/counter/counterSlice";
 import { RootState } from "../lib/redux/store";
@@ -26,6 +26,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Outlet />
     </>
   );
 }

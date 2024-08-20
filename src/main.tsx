@@ -30,6 +30,12 @@ const rootRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      {
+        path: "kurmi",
+        element: <div>kimaki</div>,
+      },
+    ],
   },
   {
     path: "kurma",
