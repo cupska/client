@@ -30,12 +30,18 @@ const rootRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [
-      {
-        path: "kurmi",
-        element: <div>kimaki</div>,
-      },
-    ],
+    loader: async () => {
+      await fetch(import.meta.env.VITE_API_URL + "/auth/session", {
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          const { data }: SessionType = res;
+          if (data?.isAuthenticated) throw redirect("/dashboard/produk");
+        });
+      throw redirect("/auth/login");
+      return null;
+    },
   },
   {
     path: "kurma",
