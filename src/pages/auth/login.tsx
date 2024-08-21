@@ -21,7 +21,8 @@ export default function Login() {
   });
   const navigate = useNavigate();
 
-  const [loginMutate, { isSuccess, isError }] = authServices.useLoginMutation();
+  const [loginMutate, { isSuccess, isError, isLoading: loginLoading }] =
+    authServices.useLoginMutation();
 
   useEffect(() => {
     navigate("/dashboard/produk");
@@ -48,8 +49,8 @@ export default function Login() {
         className="mt-8 grid grid-cols-6 gap-6"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <div className=" grid col-span-6 grid-cols-subgrid">
-          <div className=" col-span-3">
+        <div className="  grid col-span-6 grid-cols-subgrid">
+          <div className=" lg:col-span-3 col-span-6">
             <TextNumberInput
               title="Username"
               id="username"
@@ -64,7 +65,7 @@ export default function Login() {
           </div>
         </div>
         <div className=" grid col-span-6 grid-cols-subgrid">
-          <div className=" col-span-3">
+          <div className=" lg:col-span-3 col-span-6">
             <TextNumberInput
               title="Kata sandi"
               id="password"
@@ -78,11 +79,13 @@ export default function Login() {
             </ErrorInputValidation>
           </div>
         </div>
-        <div className=" w-fit m-auto">
-          <Button type="submit">Masuk</Button>
+        <div className=" col-span-6 text-center">
+          <Button type="submit" className=" w-2/3" isLoading={loginLoading}>
+            Masuk
+          </Button>
         </div>
       </form>
-      <div>
+      <div className=" mt-2">
         Belum memiliki akun?{" "}
         <NavLink
           to={"/auth/registration"}

@@ -2,10 +2,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { z } from "zod";
 import { userSchema } from "../lib/zod-validation/user.validation";
-// import type { Pokemon } from './types'
+
 const userType = userSchema.omit({ password: true });
 type userSchemaType = z.infer<typeof userType>;
-// Define a service using a base URL and expected endpoints
+
 export const userServices = createApi({
   reducerPath: "userServices",
   baseQuery: fetchBaseQuery({
@@ -26,7 +26,3 @@ export const userServices = createApi({
     }),
   }),
 });
-
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
-// export const { useCheckUsernameExistQuery } = userServices;

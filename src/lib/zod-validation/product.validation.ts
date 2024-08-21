@@ -8,7 +8,7 @@ import {
 } from "../../components/constants";
 
 export const productSchema = z.object({
-  id: z.number().max(255).optional(),
+  id: z.number().optional(),
   name: z.string().min(1, REQUIRED_MSG).max(100),
   image: z
     .instanceof(FileList)

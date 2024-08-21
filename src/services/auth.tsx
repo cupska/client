@@ -5,9 +5,7 @@ import {
   loginSchema,
   registerSchema,
 } from "../lib/zod-validation/user.validation";
-// import type { Pokemon } from './types'
 
-// Define a service using a base URL and expected endpoints
 export const authServices = createApi({
   reducerPath: "authServices",
   baseQuery: fetchBaseQuery({
@@ -58,6 +56,3 @@ export const authServices = createApi({
     }),
   }),
 });
-
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints

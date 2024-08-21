@@ -33,6 +33,7 @@ export default function UpdateProduct() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => formProps.reset(productQuery?.data), [isSuccess]);
 
+  console.log(formProps.formState.errors);
   const submitHandler = (
     datas: Partial<updateProductSchemaType> & { [key: string]: unknown }
   ) => {

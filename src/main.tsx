@@ -11,7 +11,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import MainLayout from "./components/layout/Main.layout.tsx";
-import App from "./pages/App.tsx";
 import Auth from "./pages/auth/index.tsx";
 import Login from "./pages/auth/login.tsx";
 import Logout from "./pages/auth/logout.tsx";
@@ -29,7 +28,6 @@ type SessionType = {
 const rootRouter = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
     loader: async () => {
       await fetch(import.meta.env.VITE_API_URL + "/auth/session", {
         credentials: "include",
@@ -42,10 +40,6 @@ const rootRouter = createBrowserRouter([
       throw redirect("/auth/login");
       return null;
     },
-  },
-  {
-    path: "kurma",
-    element: <div>kimak</div>,
   },
   {
     path: "auth",

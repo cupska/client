@@ -65,7 +65,7 @@ export default function Registration() {
     }
     if (isError)
       dispatch(addToast({ elm: "Gagal mendaftar", status: "error" }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);
 
   const submitHandler = (data: registerSchemaType) => {
@@ -79,7 +79,7 @@ export default function Registration() {
         onSubmit={handleSubmit(submitHandler)}
       >
         <div className=" grid col-span-6 grid-cols-subgrid">
-          <div className=" col-span-3">
+          <div className=" lg:col-span-3 col-span-6">
             <TextNumberInput
               title="Nama lengkap"
               id="fullname"
@@ -94,7 +94,7 @@ export default function Registration() {
           </div>
         </div>
         <div className="col-span-6 grid grid-cols-subgrid">
-          <div className=" col-span-3">
+          <div className=" lg:col-span-3 col-span-6">
             <TextNumberInput
               title="Username"
               id="username"
@@ -157,36 +157,9 @@ export default function Registration() {
               Object.values(errors?.passwordConfirm?.types).join("\n")}
           </ErrorInputValidation>
         </div>
-        <div className="col-span-6">
-          <label htmlFor="MarketingAccept" className="flex gap-4">
-            <input
-              type="checkbox"
-              id="MarketingAccept"
-              name="marketing_accept"
-              className="checkbox checkbox-primary border-[#1f293733] rounded-full checkbox-sm"
-            />
 
-            <span className="text-sm text-gray-700 dark:text-gray-200">
-              I want to receive emails about events, product updates and company
-              announcements.
-            </span>
-          </label>
-        </div>
-        <div className="col-span-6">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            By creating an account, you agree to our{" "}
-            <a href="#" className="text-gray-700 underline dark:text-gray-200">
-              terms and conditions
-            </a>{" "}
-            and{" "}
-            <a href="#" className="text-gray-700 underline dark:text-gray-200">
-              privacy policy
-            </a>
-            .
-          </p>
-        </div>
-        <div className="col-span-6 m-auto sm:flex sm:items-center sm:gap-4">
-          <Button type="submit" isLoading={isLoading}>
+        <div className="col-span-6 m-auto  flex flex-col justify-center items-center sm:gap-4">
+          <Button type="submit" className="  w-2/3" isLoading={isLoading}>
             Daftar
           </Button>
 

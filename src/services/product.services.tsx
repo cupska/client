@@ -6,8 +6,7 @@ import {
   updateProductSchema,
 } from "../lib/zod-validation/product.validation";
 import { addToast } from "../features/toastSlice";
-
-// Define a service using a base URL and expected endpoints
+ 
 export const productServices = createApi({
   reducerPath: "productServices",
   baseQuery: fetchBaseQuery({
@@ -103,6 +102,4 @@ export const productServices = createApi({
     }),
   }),
 });
-
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
+ 

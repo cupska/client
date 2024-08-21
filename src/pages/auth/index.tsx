@@ -4,7 +4,7 @@ export default function Auth() {
   return (
     <>
       <div>
-        <div className=" //backdrop fixed bg-gray-900 w-dvw h-dvh top-0 left-0 -z-50" />
+        {/* <div className=" //backdrop fixed bg-gray-900 w-dvw h-dvh top-0 left-0 -z-50" /> */}
         <section className="bg-white dark:bg-gray-900 ">
           <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
             <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">

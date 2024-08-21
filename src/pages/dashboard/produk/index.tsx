@@ -97,14 +97,9 @@ export default function Produk() {
           <NavLink to={dataProdukBreadcrums[1].path} className="btn btn-accent">
             Tambah Produk
           </NavLink>
-          {/* {productQuery.data?.data && (
-            <CSVLink data={productQuery.data?.data}>
-              <button className="btn btn-primary">Export CSV</button>
-            </CSVLink>
-          )} */}
         </div>
       </div>
-      <div className="overflow-x-auto relative mt-10  ">
+      <div className="overflow-x-auto max-w-full  relative mt-10  ">
         {productQuery.isLoading && (
           <span className=" loading absolute right-1/2 bottom-1/2 loading-spinner loading-md"></span>
         )}
@@ -147,7 +142,8 @@ function TableProduct({
   paging: { page: number; limit: number; totalRow: number };
   onRefetch: () => void;
 }) {
-  const [mutateDelProduct] = productServices.useDeleteProductMutation();
+  const [mutateDelProduct, { isLoading }] =
+    productServices.useDeleteProductMutation();
 
   const mutateDelProductHandler = (id: number) => {
     mutateDelProduct(id).then(onRefetch);
@@ -155,7 +151,7 @@ function TableProduct({
 
   return (
     <>
-      <table className="table table-xs table-pin-rows table-pin-cols">
+      <table className="table table-md table-pin-rows table-pin-cols">
         <thead>
           <tr>
             <th></th>
@@ -165,7 +161,6 @@ function TableProduct({
             <td>Harga Beli</td>
             <td>Harga Jual</td>
             <td>Stok Barang</td>
-            <th></th>
           </tr>
         </thead>
         {datas.map((row, i) => (
@@ -195,6 +190,7 @@ function TableProduct({
                   </NavLink>
                   <button
                     title="hapus"
+                    disabled={isLoading}
                     onClick={() => mutateDelProductHandler(row.id as number)}
                     className=" btn-icon text-lg"
                   >
