@@ -62,7 +62,7 @@ export default function FormProduct({
               {errors.category_id?.message}
             </ErrorInputValidation>
           </div>
-          <div className=" col-span-2">
+          <div className=" col-span-3 md:col-span-2">
             <TextNumberInput
               title="Harga beli (Rp)"
               type="number"
@@ -73,7 +73,7 @@ export default function FormProduct({
               {errors.buy_price?.message}
             </ErrorInputValidation>
           </div>
-          <div className=" col-span-2">
+          <div className=" col-span-3 md:col-span-2">
             <TextNumberInput
               title="Harga jual (Rp)"
               type="number"
@@ -84,7 +84,7 @@ export default function FormProduct({
               {errors.sell_price?.message}
             </ErrorInputValidation>
           </div>
-          <div className=" col-span-2">
+          <div className=" col-span-3 md:col-span-2">
             <TextNumberInput
               title="Stok"
               type="number"
@@ -113,7 +113,7 @@ export default function FormProduct({
           >
             <BiReset />
           </button>
-          <Button title="simpan" type="submit" isLoading={isMutateLoading}>
+          <Button className=" btn-primary" title="simpan" type="submit" isLoading={isMutateLoading}>
             {isUpdate ? "Ubah" : "Simpan"}
           </Button>
         </div>

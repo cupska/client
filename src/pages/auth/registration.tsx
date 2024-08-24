@@ -158,21 +158,27 @@ export default function Registration() {
           </ErrorInputValidation>
         </div>
 
-        <div className="col-span-6 m-auto  flex flex-col justify-center items-center sm:gap-4">
-          <Button type="submit" className="  w-2/3" isLoading={isLoading}>
-            Daftar
-          </Button>
-
-          <p className="mt-4 text-sm text-gray-500 sm:mt-0 dark:text-gray-400">
-            Already have an account?
-            <NavLink
-              to={"/auth/login"}
-              className="text-gray-700 underline dark:text-gray-200"
+        <div className="col-span-6 lg:grid lg:grid-cols-subgrid text-center">
+          <div className=" col-start-2 col-span-4 flex flex-col items-center gap-y-4">
+            <Button
+              type="submit"
+              className=" btn-primary w-full lg:w-2/3"
+              isLoading={isLoading}
             >
-              Log in
-            </NavLink>
-            .
-          </p>
+              Daftar
+            </Button>
+
+            <p className="mt-4 text-sm text-gray-500 sm:mt-0 dark:text-gray-400">
+              Already have an account?
+              <NavLink
+                to={"/auth/login"}
+                className="text-gray-700 underline dark:text-gray-200"
+              >
+                Log in
+              </NavLink>
+              .
+            </p>
+          </div>
         </div>
       </form>
     </>

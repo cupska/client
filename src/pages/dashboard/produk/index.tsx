@@ -54,7 +54,7 @@ export default function Produk() {
         datas={[dataProdukBreadcrums[0]]}
         className=" text-xl font-semibold"
       />
-      <div className=" flex justify-between items-end">
+      <div className=" flex max-md:gap-y-2  flex-wrap w-full max-md:flex-col justify-between md:items-end">
         <div className="flex gap-x-4">
           <SearchInput
             placeholder="Cari produk"
@@ -73,9 +73,10 @@ export default function Produk() {
               ))}
           </SelectInput>
         </div>
-        <div className=" space-x-4">
+        <div className=" flex space-x-4">
           <Button
             type="button"
+            className=" btn-primary flex-1"
             onClick={async () => {
               const res = await fetch(
                 import.meta.env.VITE_API_URL + "/export-csv",
@@ -94,7 +95,7 @@ export default function Produk() {
           >
             Export
           </Button>
-          <NavLink to={dataProdukBreadcrums[1].path} className="btn btn-accent">
+          <NavLink to={dataProdukBreadcrums[1].path} className="btn btn-accent flex-1">
             Tambah Produk
           </NavLink>
         </div>

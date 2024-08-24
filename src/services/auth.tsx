@@ -21,7 +21,7 @@ export const authServices = createApi({
       }),
     }),
     login: builder.mutation<
-      { data: { message: string } },
+      { data: { message: string }; error: { message: string } },
       z.infer<typeof loginSchema>
     >({
       query: (body) => ({

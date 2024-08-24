@@ -17,7 +17,7 @@ export default function Button({
   return (
     <button
       className={` group relative inline-flex  items-center overflow-hidden btn 
-        ${!isLoading ? " btn-primary" : " btn-disabled"} ${className} `}
+        ${isLoading && " btn-disabled"} ${className} `}
       type={type}
       title={title}
       {...rest}

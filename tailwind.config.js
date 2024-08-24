@@ -7,6 +7,9 @@ export default {
   darkMode: "class",
 
   theme: {
+    fontFamily: {
+      amsterdam: ["New Amsterdam", "sans-serif"],
+    },
     extend: {},
   },
   plugins: [daisyui],

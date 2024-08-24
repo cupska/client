@@ -5,6 +5,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 export default function TextNumberInput({
   formRegister,
   isError,
+  className,
   ...props
 }: InputHTMLAttributes<HTMLInputElement> & {
   formRegister?: UseFormRegisterReturn;
@@ -19,7 +20,10 @@ export default function TextNumberInput({
         <input
           type="text"
           className={
-            "input input-bordered w-full " + (isError && " input-error")
+            "input input-bordered w-full " +
+            (isError && " input-error") +
+            " " +
+            className
           }
           {...formRegister}
           {...props}
