@@ -65,9 +65,10 @@ export default function Login() {
         <TextNumberInput
           title="Kata sandi"
           id="password"
+          type="password"
           formRegister={register("password")}
           isError={!!errors.password}
-        />
+        /> 
 
         <ErrorInputValidation>{errors?.password?.message}</ErrorInputValidation>
 
@@ -83,13 +84,12 @@ export default function Login() {
             type="button"
             onClick={akunDemoHandler}
             className=" mt-2 btn-ghost w-full lg:w-2/3"
-            isLoading={loginLoading}
           >
             akun demo
           </Button>
         </div>
       </form>
-      <div className=" mt-2">
+      <div className=" mt-2 ">
         Belum memiliki akun?{" "}
         <NavLink
           to={"/auth/registration"}

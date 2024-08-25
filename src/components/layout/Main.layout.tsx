@@ -72,6 +72,7 @@ function SideNavbar() {
             <li key={i}>
               <Link
                 to={link.path}
+                replace
                 className={
                   " text-sm font-bold group flex items-center py-4 gap-x-4 px-4 active:bg-white  rounded-2xl "
                 }
